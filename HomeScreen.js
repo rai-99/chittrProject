@@ -1,77 +1,68 @@
 import React, { Component } from 'react';
-import { FlatList, ActivityIndicator, Text, View, Button,TouchableOpacity, StyleSheet, TextInput, Alert,} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
-class HomeScreen extends Component{
-  static navigationOptions = {
-   header: null
-  }
-
- render(){
- return(
- <View style = {styles.container}>
-
- <TouchableOpacity style = {styles.Button}
-  onPress=
-  {
-    () => this.props.navigation.navigate('Users')
-  }>
-  <Text style = {styles.ButtonText}> Users </Text>
- </TouchableOpacity>
+class HomeScreen extends Component {
+   static navigationOptions = {
+      headerShown: false
+   }
 
 
- <TouchableOpacity style = {styles.Button}
-  onPress=
-  {
-    () => this.props.navigation.navigate('Chits')
-  }>
-  <Text style = {styles.ButtonText}> Chits </Text>
- </TouchableOpacity>
+   render() {
+      return (
+         <View style={styles.container}>
 
- </View>
- );
- }
+            <TouchableOpacity style={styles.Button}
+               onPress=
+               {
+                  () => this.props.navigation.navigate('Account')
+               }>
+               <Text style={styles.ButtonText}> Go to Profile </Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.Button}
+               onPress=
+               {
+                  () => this.props.navigation.navigate('Explore')
+               }>
+               <Text style={styles.ButtonText}> View recent Chits </Text>
+            </TouchableOpacity>
+
+         </View>
+      );
+   }
 }
 export default HomeScreen
 const styles = StyleSheet.create({
-  container: {
-     flex: 1,
-     justifyContent: 'center',
-  },
+   container: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#B0E0E6'
+   },
 
-  ButtonText:{
-     color: 'white',
-     fontSize: 28,
-     fontWeight: 'bold'
-  },
+   ButtonText: {
+      color: 'white',
+      fontSize: 28,
+      fontWeight: 'bold',
+      textAlign: "center"
+   },
 
-  TitleText:{
-     color: 'black',
-     fontSize: 24,
-     fontWeight: 'bold',
-     margin: 15
+   TitleText: {
+      color: 'black',
+      fontSize: 24,
+      fontWeight: 'bold',
+      margin: 15,
+      textAlign: "center"
 
-  },
+   },
 
-  ListText:{
-     color: 'black',
-     fontSize: 20
+   Button: {
+      backgroundColor: '#008080',
+      padding: 10,
+      borderRadius: 15,
+      alignItems: 'center',
+      margin: 15,
+      height: 60,
+   },
 
-  },
-
-  Button: {
-     backgroundColor: '#008080',
-     padding: 10,
-     alignItems: 'center',
-     margin: 15,
-     height: 60,
-  },
-
-  list: {
-    margin: 5,
-    backgroundColor: '#008080',
-    height: 80,
-    justifyContent: 'space-around',
-    padding: 10,
-    elevation: 1
-    },
 });

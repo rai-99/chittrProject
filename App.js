@@ -1,24 +1,37 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-
-import { FlatList, ActivityIndicator, Text, View, Button,TouchableOpacity, StyleSheet, TextInput, Alert,} from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
 import UserScreen from './screens/UserScreen';
+import LoginScreen from './screens/LoginScreen';
 import ChitsScreen from './screens/ChitsScreen';
+import LoggedInScreen from './screens/LoggedInScreen';
 
 
-const AppTabNav = createBottomTabNavigator({
- Home: {screen: HomeScreen},
- Users: {screen: UserScreen},
- Chits: {screen: ChitsScreen},
+const MainTabNav = createBottomTabNavigator(
+  {
+    Home: { screen: HomeScreen },
+    Account: { screen: UserScreen },
+    Explore: { screen: ChitsScreen }
+  },
+  {
+    navigationOptions: () => {
+      return {
+        headerShown: false
+      };
+    }
+  },
+);
+
+
+const MainStackNav = createStackNavigator({
+  MainTabNav: MainTabNav,
+  Login: { screen: LoginScreen },
+  LoggedIn: { screen: LoggedInScreen },
 });
 
-const AppContainer = createAppContainer(AppTabNav);
+const AppContainer = createAppContainer(MainStackNav);
 export default AppContainer;
 
-const styles = StyleSheet.create({
-  container: {
-     flex: 1,
-     justifyContent: 'center',
-  },
-});
+
+
