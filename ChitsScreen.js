@@ -13,6 +13,11 @@ class ChitsScreen extends Component {
     }
   }
 
+  componentDidMount() {
+    this.getData();
+  }
+
+
   getData() {
     return fetch('http://10.0.2.2:3333/api/v0.0.5/chits')
       .then((response) => response.json())
@@ -27,10 +32,7 @@ class ChitsScreen extends Component {
       });
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-
+ 
   render() {
     if (this.state.isLoading) {
       return (
@@ -44,7 +46,7 @@ class ChitsScreen extends Component {
         <Text style={styles.TitleText}>Recent chits: </Text>
         <FlatList
           data={this.state.recentChits}
-          keyExtractor={({ id }) => id}
+          keyExtractor={({ chit_id }) => chit_id}
           renderItem={({ item }) => <View style={styles.list}>
             <Text style={styles.ListText}>{item.chit_content}</Text>
             </View>} />
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#B0E0E6'
+    backgroundColor: '#FFFFFF'
   },
 
   ButtonText: {
@@ -71,33 +73,30 @@ const styles = StyleSheet.create({
 
   TitleText: {
     color: 'black',
-    fontSize: 24,
-    textAlign: "center",
+    fontSize: 28,
     fontWeight: 'bold',
+    textAlign: "center",
     margin: 15
   },
 
   ListText: {
-    color: 'white',
-    fontSize: 16
+    color: 'black',
+    borderRadius: 15,
+    fontSize: 18,
+    textAlign: "center",
+    backgroundColor: "#F5F5F5",
+    alignItems: 'center',
+    margin: 10,
+    borderColor: 'black',
+    borderWidth: 2,
   },
 
   Button: {
-    backgroundColor: '#008080',
-    padding: 10,
+    backgroundColor: '#233947',
+    padding: 5,
     borderRadius: 15,
     alignItems: 'center',
     margin: 15,
-    height: 60,
-  },
-
-  list: {
-    margin: 5,
-    backgroundColor: '#008080',
-    flex: 1,
-    borderRadius: 15,
-    justifyContent: 'space-around',
-    padding: 10,
-    elevation: 1
+    height: 50,
   },
 });

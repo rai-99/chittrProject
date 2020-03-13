@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList, ActivityIndicator, Text, View, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { ActivityIndicator, Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
+
+
 
 class MyChits extends Component {
    static navigationOptions = {
@@ -8,10 +10,26 @@ class MyChits extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         chit: 'debug chit',
-         recentChits: [],
+         timeStamp: 1583755144,//current time stamp
+         chitContent : 'DEBUG: TEST CHIT',
+         isLoading: true,
+         TOKEN: '',
+         ID: ''
       };
    }
+
+   getToken = async () => {
+      try {
+        let res = await AsyncStorage.getItem('@logInResponse:token');
+        let res2 = await AsyncStorage.getItem('@logInResponse:id');
+        console.log("Token is  :", res + "     id is :" + res2);
+        this.setState({
+          TOKEN : res,
+          ID : res2});   
+      } catch (error) {
+        console.log("GET TOKEN ERROR : " + error);
+      }
+    }
 
    getData() {
       return fetch('http://10.0.2.2:3333/api/v0.0.5/chits',
@@ -20,7 +38,7 @@ class MyChits extends Component {
          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'X-Authorization': '7a92997e95982b767aad3c1a18e978fb'  
+            'X-Authorization': this.state.TOKEN 
          },
       })
          .then((response) => response.json())
@@ -39,14 +57,12 @@ class MyChits extends Component {
          {
             method: 'POST',
             headers: {
-               'Accept': 'application/json',
                'Content-Type': 'application/json',
-               'X-Authorization': this.getToken(),  
-               
+               'X-Authorization': this.state.TOKEN,              
             },
             body: JSON.stringify({
-               email: this.state.logInemail,
-               password: this.state.logInPassword
+               timestamp: this.state.timeStamp,
+               chit_content: this.state.chitContent
             })
          })
          .then((response) => response.json())
@@ -55,41 +71,48 @@ class MyChits extends Component {
                logInResponse: responseJson,
                isLoggedIn: true,
             });
-            Alert.alert("Succesfully logged in !");
+            Alert.alert("Chit posted!");
          })
          .catch((error) => {
             console.error(error);
          });
    }
 
+   componentDidMount() {
+      this.getToken()
+      this.getData()
+    }
+  
 
    render() {
       return (
          <View style={styles.container}>
-            <Text style={styles.TitleText}>Post a new chit: </Text>
+            <Text style={styles.TitleText}>Start chitting</Text>
 
             <TextInput style={styles.chitText}
                underlineColorAndroid="transparent"
                autoCapitalize="none"
-               onChangeText={text => this.setState({ chit: text })}
+               onChangeText={text => this.setState({ chitContent: text })}
             />
+
+         
             <TouchableOpacity
                style={styles.Button}
                onPress=
                {
                   () => this.postChit()
                }>
-               <Text style={styles.ButtonText}> Post chit</Text>
+               <Text style={styles.ButtonText}> Post</Text>
             </TouchableOpacity>
             
-            <Text style={styles.TitleText}>My chits: </Text>
+            {/* <Text style={styles.TitleText}>My chits: </Text>
             <FlatList
                data={this.state.recentChits}
                keyExtractor={({ user_id }) => user_id}
                renderItem={({ item }) => 
                <View style={styles.list}>
                   <Text style={styles.ListText}>{item.chit_content}</Text>
-                  </View>} />
+                  </View>} /> */}
          </View>
       );
    }
@@ -99,56 +122,53 @@ class MyChits extends Component {
 export default MyChits
 const styles = StyleSheet.create({
    container: {
-      flex: 1,
-      justifyContent: 'center',
-      backgroundColor: '#B0E0E6'
+     flex: 1,
+     backgroundColor: '#FFFFFF'
    },
-
+ 
    ButtonText: {
-      color: 'white',
-      fontSize: 28,
-      fontWeight: 'bold'
+     color: 'white',
+     fontSize: 28,
+     fontWeight: 'bold'
+   },
+ 
+   TitleText: {
+     color: 'black',
+     fontSize: 28,
+     fontWeight: 'bold',
+     textAlign: "center",
+     margin: 15
+   },
+ 
+   ListText: {
+     color: 'black',
+     borderRadius: 15,
+     fontSize: 18,
+     textAlign: "center",
+     backgroundColor: "#F5F5F5",
+     alignItems: 'center',
+     margin: 10,
+     borderColor: 'black',
+     borderWidth: 2,
    },
 
-   TitleText: {
-      color: 'black',
-      fontSize: 24,
-      textAlign: "center",
-      fontWeight: 'bold',
-      margin: 5
-   },
    chitText: {
       color: 'black',
       fontSize: 18,
-      height: 100,
+      height: 150,
       margin: 10,
       borderRadius: 15,
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "#F5F5F5",
       borderColor: 'black',
       borderWidth: 2,
    },
-
-   ListText: {
-      color: 'white',
-      fontSize: 16,
-   },
-
+ 
    Button: {
-      backgroundColor: '#008080',
-      padding: 10,
-      borderRadius: 15,
-      alignItems: 'center',
-      margin: 15,
-      height: 60,
+     backgroundColor: '#233947',
+     padding: 5,
+     borderRadius: 15,
+     alignItems: 'center',
+     margin: 15,
+     height: 50,
    },
-
-   list: {
-      margin: 5,
-      backgroundColor: '#008080',
-      flex: 1,
-      borderRadius: 15,
-      justifyContent: 'space-around',
-      padding: 5,
-      elevation: 1
-   },
-});
+ });

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 
+
 class MyFollowerScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchUserDetail: ' ',
             isLoading: true,
             userDetails: [],
         }
     }
 
     searchUser() {
-        return fetch('http://10.0.2.2:3333/api/v0.0.5/search_user/?q=@') //gets all users
+        return fetch('http://10.0.2.2:3333/api/v0.0.5/search_user/?q=@') 
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -47,7 +47,7 @@ class MyFollowerScreen extends Component {
                     renderItem={({ item }) =>
                         <View style={styles.list}>
                             <Text style={styles.ListText}>{'Name :  ' + item.given_name + " " + item.family_name + " Email :" + item.email}</Text>
-                            <TouchableOpacity onPress={() => this.deleteItem(item.id)}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Page')}>
                                 <Text style={styles.ButtonText}>MORE INFO</Text>
                             </TouchableOpacity>
                         </View>} />
@@ -56,18 +56,16 @@ class MyFollowerScreen extends Component {
     }
 }
 
-
-
 export default MyFollowerScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#B0E0E6',
+        backgroundColor: '#FFFFFF',
         paddingTop: 30
     },
 
     ButtonText: {
-        color: 'black',
+        color: 'white',
         fontSize: 20,
         textAlign: "center",
         fontWeight: 'bold'
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     },
 
     Button: {
-        backgroundColor: '#008080',
+        backgroundColor: '#233947',
         padding: 5,
         alignItems: 'center',
         margin: 15,
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
 
     list: {
         margin: 5,
-        backgroundColor: '#008080',
+        backgroundColor: '#233947',
         flex: 1,
         borderRadius: 15,
         justifyContent: 'space-around',

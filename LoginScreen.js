@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
-import { AsyncStorage } from '@react-native-community/async-storage';
-
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, AsyncStorage } from 'react-native';
 
 class LoginScreen extends Component {
   static navigationOptions = {
@@ -17,13 +15,13 @@ class LoginScreen extends Component {
     };
   }
 
-  setLoginResponse = async () => {
+  setLoginResponse = async () => { //sets the login cust id and token in async storage
     try {
-      console.log("RESPONSE :", this.state.res);
-      await AsyncStorage.setItem('@logInResponse', this.state.res)
+      await AsyncStorage.setItem('@logInResponse:token', "" + this.state.res.token);
+      await AsyncStorage.setItem('@logInResponse:id', "" + this.state.res.id);
     } catch (e) {
+      console.log("SetLoginResponse function error : ", e); //error message catch
     }
-    console.log('Done')
   }
 
   login() {
@@ -42,10 +40,13 @@ class LoginScreen extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
-          res: responseJson,
+          res: {
+            "token": responseJson.token,
+            "id": responseJson.id
+          }
         });
         this.setLoginResponse();
-        // debug //console.log("Func Res: ", this.state.res);
+        console.log("The login response: ", this.state.res);
         this.props.navigation.navigate('LoggedIn')
       })
       .catch((error) => {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#B0E0E6'
+    backgroundColor: '#FFFFFF'
   },
 
   ButtonText: {
@@ -109,29 +110,30 @@ const styles = StyleSheet.create({
 
   TitleText: {
     color: 'black',
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: 'bold',
-    margin: 15,
-    textAlign: "center"
+    textAlign: "center",
+    margin: 15
   },
 
   ListText: {
     color: 'black',
+    borderRadius: 15,
     fontSize: 18,
     textAlign: "center",
+    backgroundColor: "#F5F5F5",
+    alignItems: 'center',
     margin: 10,
-    borderRadius: 15,
-    backgroundColor: "#FFFFFF",
     borderColor: 'black',
     borderWidth: 2,
   },
 
   Button: {
-    backgroundColor: '#008080',
+    backgroundColor: '#233947',
     padding: 5,
+    borderRadius: 15,
     alignItems: 'center',
     margin: 15,
-    borderRadius: 15,
     height: 50,
   },
 });

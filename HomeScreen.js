@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+
 
 class HomeScreen extends Component {
-   static navigationOptions = {
-      header: false
-   }
-
-
    render() {
       return (
          <View style={styles.container}>
-
+            <Image style ={{width: 350, height: 200}}
+              source={require('../assests/chittr-logo.png')}
+            />
             <TouchableOpacity style={styles.Button}
                onPress=
                {
@@ -37,7 +35,7 @@ const styles = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: '#B0E0E6'
+      backgroundColor: '#FFFFFF'  
    },
 
    ButtonText: {
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
    },
 
    Button: {
-      backgroundColor: '#008080',
+      backgroundColor: '#233947',
       padding: 10,
       borderRadius: 15,
       alignItems: 'center',

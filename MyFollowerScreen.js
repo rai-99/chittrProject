@@ -30,7 +30,8 @@ class MyFollowerScreen extends Component {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#B0E0E6'
+      justifyContent: 'center',
+      backgroundColor: '#FC9D9A'
     },
   
     ButtonText: {
@@ -41,34 +42,30 @@ class MyFollowerScreen extends Component {
   
     TitleText: {
       color: 'black',
-      fontSize: 24,
-      textAlign: "center",
+      fontSize: 28,
       fontWeight: 'bold',
+      textAlign: "center",
       margin: 15
     },
   
     ListText: {
-      color: 'white',
-      fontSize: 16
+      color: 'black',
+      borderRadius: 15,
+      fontSize: 18,
+      textAlign: "center",
+      backgroundColor: "#F5F5F5",
+      alignItems: 'center',
+      margin: 10,
+      borderColor: 'black',
+      borderWidth: 2,
     },
   
     Button: {
-      backgroundColor: '#008080',
-      padding: 10,
+      backgroundColor: '#FE4365',
+      padding: 5,
       borderRadius: 15,
       alignItems: 'center',
       margin: 15,
-      height: 60,
-    },
-  
-    list: {
-      margin: 5,
-      backgroundColor: '#008080',
-      flex: 1,
-      borderRadius: 15,
-      justifyContent: 'space-around',
-      padding: 10,
-      elevation: 1
+      height: 50,
     },
   });
-  
