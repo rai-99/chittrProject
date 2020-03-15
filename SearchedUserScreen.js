@@ -1,42 +1,31 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, TextInput, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, TextInput } from 'react-native';
 
 
-class AllUsersScreen extends Component {
+class MyFollowerScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
+            userDetails2: [],
             userDetails: [],
-            id: ''
+            searchUser: ''
         }
     }
 
-
-    storeUserClicked (id) {
-        try {
-            AsyncStorage.setItem('@searchDetails', this.state.id);
-            let searchInfo =  AsyncStorage.getItem('@searchDetails');
-            console.log("Search info  is :"+ '@searchDetails');
-        } catch (e) {
-            console.log("Set function error : ", e); //error message catch
-        }
-    }
-
-
-    showAllUsers() {
-        return fetch('http://10.0.2.2:3333/api/v0.0.5/search_user/?q=@')
+    gerUserDetail() {
+        return fetch('http://10.0.2.2:3333/api/v0.0.5/search_user/q='+this.state.searchUser)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    isLoading: false,
-                    userDetails: responseJson,
+                    userDetails2: responseJson,
                 });
             })
             .catch((error) => {
                 console.error(error);
             });
     }
+
 
     componentDidMount() {
         this.showAllUsers();
@@ -52,31 +41,29 @@ class AllUsersScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.TitleText}>Current users </Text>
-                <FlatList
-                    refreshing={this.state.refresh}
-                    data={this.state.userDetails}
-                    keyExtractor={({ user_id }) => user_id}
-                    renderItem={({ item }) =>
-                        <View style={styles.list}>
-                            <Text style={styles.ListText}>{'Name :  ' + item.given_name + " " + item.family_name + " Email :" + item.email}</Text>
-                            <TouchableOpacity onPress = {() => this.storeUserClicked(item.user_id)}>
-                                <Text style={styles.ButtonText2}> MORE DETAIL</Text>
-                            </TouchableOpacity>
-                        </View>} />
+                <Text style={styles.TitleText}>SEATCHED USER</Text>                  
             </View>
         );
     }
 }
 
-export default AllUsersScreen
+export default MyFollowerScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFFFFF',
     },
-    
-    ButtonText2: {
+    chitText: {
+        color: 'black',
+        fontSize: 18,
+        borderRadius: 15,
+        height: 70,
+        backgroundColor: "#F5F5F5",
+        borderColor: 'black',
+        borderWidth: 2,
+    },
+
+    ButtonText: {
         color: 'white',
         fontSize: 20,
         textAlign: "center",
@@ -103,15 +90,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#233947',
         padding: 5,
         alignItems: 'center',
-        margin: 5,
+        margin: 15,
         borderRadius: 15,
+        height: 50,
     },
 
     list: {
         margin: 5,
         backgroundColor: '#233947',
+        flex: 1,
         borderRadius: 15,
         justifyContent: 'space-around',
+        padding: 10,
         elevation: 1
     },
 });

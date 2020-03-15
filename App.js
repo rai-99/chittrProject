@@ -3,10 +3,10 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
-import UserScreen from './screens/UserScreen';
+import AccountScreen from './screens/AccountScreen';
 import LoginScreen from './screens/LoginScreen';
-import ChitsScreen from './screens/ChitsScreen';
-import LoggedInScreen from './screens/LoggedInScreen';
+import ExploreScreen from './screens/ExploreScreen';
+import LoggedInNav from './screens/LoggedInNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon3 from 'react-native-vector-icons/FontAwesome';
@@ -31,7 +31,7 @@ const MainTabNav = createBottomTabNavigator(
         )
     })
   },
-    Account: { screen: UserScreen, 
+    Account: { screen: AccountScreen, 
       navigationOptions: () => ({
         tabBarOptions:{
           activeBackgroundColor:'#233947',
@@ -49,7 +49,7 @@ const MainTabNav = createBottomTabNavigator(
     })
   },
 
-    Explore: { screen: ChitsScreen ,
+    Explore: { screen: ExploreScreen ,
       navigationOptions: () => ({
         tabBarOptions:{
           activeBackgroundColor:'#233947',
@@ -79,8 +79,8 @@ const MainTabNav = createBottomTabNavigator(
 
 const MainStackNav = createStackNavigator({
   MainTabNav: MainTabNav,
-  Login: { screen: LoginScreen },
-  LoggedIn: { screen: LoggedInScreen,
+  LoginPage: { screen: LoginScreen },
+  LoggedIn: { screen: LoggedInNav,
     navigationOptions: () => {
       return {
        headerShown: false,
